@@ -1,0 +1,103 @@
+
+<!doctype html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <title>
+    动态DOM编程起点和基础
+    </title>
+    <style type="text/css">
+        body{
+            margin: 0 ;
+            cursor: pointer;
+            background-color: rgba(180, 240, 246, 0.3);
+            }
+        div{
+            border: 1px solid rgb(167, 240, 255);
+            width:100px;
+            height:100px;
+            background-color:rgba(249, 187, 248, 0.3);
+            display:inline-block;
+            margin: 2%;
+            padding: 2%;
+            text-align: center;
+            color: rgb(137, 8, 250);
+            font-family: 宋体;
+            border-radius: 50%;
+            position: absolute;
+            transition: all 2s;
+            }
+        div.bd{
+            border-radius: 0% ;  
+            background-color:rgba(245, 248, 166, 0.3);
+            color: rgb(242, 242, 0);
+            } 
+        div p{
+            margin: auto; 
+            padding: 10%; 
+            text-align:center;  
+            } 	 
+    </style> 
+    </head> 
+    <body> 
+        <script> 
+            const nums = 6 ; 
+            var Balls = [] ; 
+            var sn = 0 ; 
+            var S = '20java2班20203078熊嘉涛。----绝代有佳人，幽居在空谷。自云良家子，零落依草木。' ; 
+            document.body.onmousemove = document.body.ontouchmove = function(){ 
+                for(let ball of Balls){ 
+                    ball.setPositionDiv() ; 
+                    } 
+                }; 
+            document.body.onclick = function(){ 
+                for(let ball of Balls){ 
+                    ball.randPositionDiv() ; 
+                    } 
+                };  
+            var bodyWidth = window.innerWidth ; 
+            var bodyHeight = window.innerHeight ; 
+            document.body.style.width = bodyWidth + 'px'; 
+            document.body.style.height = bodyHeight + 'px' ; 
+            var r = bodyWidth > bodyHeight ? bodyHeight / (nums*3/2) : bodyWidth / (nums*3/2) ; 
+            for(var i=0 ;i < S.length ; i++){ 
+                var x0 = i % nums ; 
+                var y0 = Math.floor ( i / nums ) ; 
+                var ball = new Ball( x0 , y0 ) ; 
+                ball.createDivDom(S[i]) ; 
+                ball.randPositionDiv() ; 
+                Balls.push(ball) ; 
+            } 
+            function Ball(x0 , y0){
+                this.x0 = x0 ; 
+                this.y0 = y0 ; 
+                this.dom = null ; 
+                this.createDivDom = function(s){ 
+                    var divDom = document.createElement('div') ; 
+                    var pDom = document.createElement('p') ; 
+                    pDom.textContent = s ; 
+                    pDom.style.fontSize = r/2 + 'px' ; 
+                    divDom.style.width = divDom.style.height = r + 'px' ; 
+                    if(this.x0 === 5 || this.x0 === 11 ){
+                            divDom.className = 'bd' ; 
+                    } 
+                    divDom.appendChild(pDom) ; 
+                    document.body.appendChild(divDom) ; 
+                    this.dom = divDom ; 
+                }; 
+                this.randPositionDiv = function(){ 
+                    var x = Math.floor(Math.random() * bodyWidth ) ; 
+                    var y = Math.floor( Math.random() * bodyHeight ); 
+                    this.dom.style.left = x + 'px' ; 
+                    this.dom.style.top = y + 'px' ; 
+                } ; 
+                this.setPositionDiv = function(){ 
+                    var x = parseInt(this.x0) * r * 2 ; 
+                    var y = parseInt(this.y0) * r * 2 ; 
+                    this.dom.style.left = x + r + 'px' ; 
+                    this.dom.style.top = y + r + 'px' ; 
+                } ; 
+            }; 
+        </script> 
+    </body> 
+</html>
